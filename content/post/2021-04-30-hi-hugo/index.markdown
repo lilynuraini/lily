@@ -1,13 +1,13 @@
 ---
 title: Hi Hugo
-author: ''
+author: admin
 date: '2021-04-30'
 slug: hi-hugo
 categories: []
 tags: []
 subtitle: ''
 summary: ''
-authors: []
+authors: [admin]
 lastmod: '2021-04-30T21:18:26+07:00'
 featured: no
 image:
