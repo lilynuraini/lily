@@ -1,5 +1,7 @@
 ---
 date: "2019-07-12"
+draft: true
+profile : false
 diagram: true
 highlight: true
 image:

@@ -11,6 +11,8 @@ projects: []
 subtitle: Learn how to blog in Academic using Jupyter notebooks
 summary: Learn how to blog in Academic using Jupyter notebooks
 tags: []
+draft: true
+profile : false
 title: Display Jupyter Notebooks with Academic
 ---
 
