@@ -17,10 +17,6 @@ social:
   link: mailto:lily_nuraini@ymail.com
 - display:
     header: true
-  icon: twitter
-  icon_pack: fab
-  label: Follow me on Twitter
-  link: https://twitter.com/magiclemon
 - icon: github
   icon_pack: fab
   link: https://github.com/lilynuraini
