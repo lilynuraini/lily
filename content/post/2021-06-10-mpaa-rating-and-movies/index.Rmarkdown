@@ -1,0 +1,300 @@
+---
+title: MPAA Rating and Movies
+author: Lily Nur Aini
+date: '2021-06-10'
+slug: mpaa-rating-and-movies
+categories: [mpaa and movies]
+tags: [mpaa,movie,film,rating,audience]
+subtitle: ''
+summary: ''
+authors: [admin]
+lastmod: '2021-06-10T13:43:12+07:00'
+profile : false
+featured: true
+draft: true
+image:
+  caption: '[Image by Krists Luhaers on Unsplash](https://unsplash.com/photos/AtPWnYNDJnM)'
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+```{r loading_packages, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+
+library(rmarkdown)
+library(tidyverse)
+library(extrafont)
+library(scales)
+library(tidytext)
+library(RColorBrewer)
+library(rstatix)
+library(viridis)
+library(readxl)
+library(ggrepel)
+
+```
+
+
+```{r loading_data, include = FALSE}
+
+#movie dataset 1
+movietest <- read_csv("Data/movie_metadata.csv") %>%
+  filter(!content_rating %in% c("TV-14","TV-PG","TV-MA","TV-G","TV-Y","TV-Y7")) %>%
+  mutate(content_rating_new = recode(content_rating,
+                                     "M" = "PG",
+                                     "GP" = "PG",
+                                     "X" = "NC-17",
+                                     "Not Rated" = "Unrated")) %>%
+  distinct(movie_title, title_year, .keep_all = TRUE) %>%
+  mutate(genres_new = if_else(str_detect(genres,"Romance") & str_detect(genres,"Comedy"),
+                              "Romantic Comedy",
+                              str_extract(genres, "[^|]+"))) %>%
+  mutate(genres_new = recode(genres_new,
+                             "Romance" = "Drama")) %>%
+  mutate(genres_new = recode(genres_new,
+                             "Animation" = str_match(genres, "Animation\\|\\s*(.*?)\\s*\\|")[,2])) %>%
+  mutate(imdbID = str_sub(movie_imdb_link,27,35))
+
+
+#movie dataset 2
+moviemain1 <- read_csv("Data/IMDBdata_MainData.csv") %>%
+  filter(Type == "movie")
+moviemain2 <- read_csv("Data/IMDBdata_MainData2.csv") %>%
+  filter(Type == "movie", !Rated %in% c("TV-14","TV-PG","TV-MA","TV-G","TV-Y","TV-Y7")) %>%
+  mutate(Year = as.numeric(Year))
+
+#combine movie dataset 2
+moviemain <- rbind(moviemain1,moviemain2) %>%
+  filter(!Rated %in% c("TV-14","TV-PG","TV-MA","TV-G","TV-Y","TV-Y7")) %>%
+  mutate(Rated = recode(Rated,
+                                     "M" = "PG",
+                                     "M/PG" = "PG",
+                                     "GP" = "PG",
+                                     "X" = "NC-17",
+                                     "NOT RATED" = "UNRATED")) %>%
+  distinct(Title, Year, .keep_all = TRUE) %>%
+  mutate(genres_new = if_else(str_detect(Genre,"Romance") & str_detect(Genre,"Comedy"),
+                              "Romantic Comedy",
+                              str_extract(Genre, "[^,]+"))) %>%
+  mutate(genres_new = recode(genres_new,
+                             "Romance" = "Drama"))
+
+#left join movie dataset 1 to movie dataset 2
+movietestmain <- movietest %>% 
+  left_join(moviemain %>% select(imdbID, Awards, Metascore, Language, Country), by = "imdbID") %>%
+  reorder_levels(content_rating_new, order = c("G","PG","PG-13","R","NC-17"))
+
+#financial dataset
+moviethenumber <- read_csv("Data/MovieData_thenumber.csv") %>%
+  reorder_levels(rating, order = c("G","PG","PG-13","R"))
+
+#oscar dataset
+oscardata <- read_xlsx("Data/os_excel.xlsx",sheet = "Sheet1") %>%
+  reorder_levels(rated, order = c("G","PG","PG-13","R","NC-17","UNRATED")) %>%
+  rename(content_rating_new = rated)
+
+```
+
+## What's Content Rating?
+
+
+![MPAA warning card in the beginning of a movie. Credit [Not B-ROLL](https://www.youtube.com/watch?v=L6482E5K9Xw)](Images/mpaa_bump_movie.jpg){width=50%} 
+
+![MPAA warning card in a movie trailer. Credit [The Athenians](https://www.youtube.com/watch?v=CmMQwvb9CFo)](Images/mpaa_bump_trailer.jpg){width=50%}
+
+
+You may have seen the above warning cards somewhere for at least once, in movie trailers or before a movie starts. They come in different colors and warnings. This is how the rating association informs you about the content of a movie. The content rating criteria differs for each country but they have the same purpose, to rate the suitability of movies to the audience. Due to the differences in rating criteria from various content rating associations and availability of data, the analysis will focus on MPAA content rating and the movies that it rates. MPAA's headquarter is located in the United States so the movies are mostly produced by the movie industry that is often called Hollywood.
+
+
+
+## MPAA Rating System
+
+According to the [website](https://www.filmratings.com/), MPAA rating system  was created to help parents make informed viewing choices for their children. To determine the content rating, MPAA raters look for violence, sex, nudity, profanity, and drugs/substance elements in movies then decide the rating codes that suit them. The rating system has changed several times since its establishment in 1922. Now it consists of 5 codes : G, PG, PG-13, R, and NC-17.
+
+![MPAA Poster from [filmratings.com](https://www.filmratings.com/)](Images/mpaa_poster.jpg)
+
+- G : Nothing offensive. Suitable for everybody.
+
+- PG : Some materials may not be suitable for children. Parents need to investigate before letting the younger children watch. The more mature themes may call for parental guidance.
+
+- PG-13 : Some materials may not be appropriate for children under 13. A sterner warning to parents to determine whether their children under age 13 should watch the movie, as some material might not be suited for them.
+
+- R : Some adult materials. Children under 17 are not allowed to watch the movie unaccompanied by a parent or adult guardian. Parents are strongly urged to find out more about the movie in determining their suitability for their children. It is not appropriate for parents to let young children watch R-rated movies.
+
+- NC-17 : Adult materials. Under 18 are not allowed to watch.
+
+
+## MPAA Rating and Movies
+
+The stick figures from MPAA poster above give us the idea of what kind of audience are appropriate for each rating code. G and PG rating are relatively safe for all as the go to rating for family movies. Hollywood could take this as an opportunity to make movies that are able to earn those MPAA ratings and attract more audience. Afterall, more audience means more money.
+
+
+```{r yearly_chart, fig.width=10,fig.height=5}
+movietestmain %>%
+  filter(content_rating_new %in% c("G","PG","PG-13","R","NC-17"), title_year >= 1990 & title_year <= 2015) %>%
+  group_by(title_year,content_rating_new) %>%
+  summarize(total = n()) %>%
+  ungroup() %>%
+  add_row(title_year = 1990, content_rating_new = "G", total = 0) %>%
+  add_row(title_year = 1990, content_rating_new = "NC-17", total = 0) %>%
+  add_row(title_year = 2015, content_rating_new = "NC-17", total = 0) %>%
+  mutate(label = if_else(title_year == 2015, as.character(content_rating_new), NA_character_))%>%
+  group_by(title_year) %>%
+  mutate(gt = sum(total), prop = total/gt) %>%
+  ungroup() %>%
+  ggplot(aes(x = title_year, y = prop, color = content_rating_new)) +
+  geom_line() +
+  scale_y_continuous(labels = percent_format()) +
+  geom_label_repel(aes(label = label),
+                   #nudge_y = 3,
+                   na.rm = TRUE) +
+  theme_minimal() +
+  theme(
+    axis.title.y = element_blank(),
+    axis.title.x = element_blank(),
+    legend.position = "none"
+  ) +
+  labs(title = "Total Movie Share Overtime", 
+       subtitle ="R-rated movies dominates almost every year",
+       caption = "source : IMDB")
+
+```
+
+The data proves otherwise. R and PG-13, the MPAA ratings that potentially attract less audience than G and PG, are the top two. R-rated movies dominate the 90's movie production but plummet in the early 2000's. Meanwhile, there is a rise of PG-13 movies that they slowly catch up and take over but only for a short period of time. R continues to dominate and followed by PG-13 in the second place, leaving a big gap for the others.
+
+
+```{r revenue_chart}
+
+
+
+moviethenumber %>%
+  filter(rating %in% c("G","PG","PG-13","R")) %>%
+  mutate(profit = (domestic_box_office+international_box_office)-production_budget - (0.5*production_budget)) %>%
+  ggplot(aes(x = rating, y = profit)) +
+  geom_boxplot(width = 0.6,aes(fill = rating), color = "black")+
+  coord_flip() +
+  scale_y_log10(labels = comma_format()) +
+  scale_x_discrete(limits = rev(levels(moviethenumber$rating))) +
+  geom_hline(aes(yintercept=46000000),color = "red",linetype="dashed")+
+  scale_fill_viridis(discrete = TRUE)+
+  labs(title = "Profit by MPAA Rating", 
+       subtitle ="R-rated movies earn less profit than the others",
+       caption = "source : OpusData Database\nMovie produced between 2006-2018, movie production budget equal or greater than USD 10 million",
+       y = "profit (log)") +
+  theme_minimal() +
+  theme(
+    axis.title.y = element_blank(),
+    legend.position = "none"
+  )
+
+
+
+
+```
+
+
+The profit data is consistent with MPAA poster. The bigger the audience, the higher the profit. The chart shows that R boxplot has the lowest median (refer to the red dash line) compared to the other MPAA ratings. Also, the profit difference between R and other ratings are significant. Comparing profit and number of movie produced, the movie industry needs to make some adjustment in their production if they want to get more money. [This research](https://www.jstor.org/stable/10.1086/339890) explains more about the topic. It's stated that there are too many R-rated movies and suggests Hollywood to relocate the budget to G, PG, and PG-13 movies to cut the risk and increase profit.
+
+
+From an outsider perspective, Hollywood is willing to take the risk of earning less money in order to keep pumping out R-rated movies. Michael Medved, a veteran movie critic, could give us a little insight on its motivation. In [his book](https://www.amazon.com/Hollywood-America-How-Why-Entertainment/dp/0060924357), he mentions many commercially unsucessfull R-rated movies indicate that the audience wants more wholesome entertainment. However, Hollywood ignores them. People in the movie industry have this craving to be accepted and recognized as artists by their peers. Instead of making movies that cater to the masses, they create these movies with mature themes, edgy, and shocking values to catch the attention, gain the recognition and praised by the critics. These types of movies do appeal to the movie industry elites and they tend to be considered highly artistic.
+
+
+```{r oscar_chart}
+
+add_position <- c(position = 1100, 11000, 110000, 250000, 4)
+  oscar_all <-  oscardata %>%
+    filter(content_rating_new %in% c("G","PG","PG-13","R","NC-17")) %>%
+    group_by(content_rating_new) %>%
+    summarize(total_all = n()) %>%
+    ungroup() %>%
+    bind_cols(add_position)
+  
+
+    
+(
+  
+  oscardata %>%
+    filter(content_rating_new %in% c("G","PG","PG-13","R","NC-17")) %>%
+    group_by(content_rating_new,winner) %>%
+    summarize(total_nom = n()) %>%
+    ungroup() %>%
+    mutate(winner = as.character(winner)) %>%
+    mutate(type = recode(winner, 
+                         "TRUE" = "win",
+                         "FALSE" = "lose")) %>%
+    select(content_rating_new,total_nom,type)
+  
+)%>%
+    left_join(
+      oscardata %>%
+        filter(content_rating_new %in% c("G","PG","PG-13","R","NC-17")) %>%
+        group_by(content_rating_new) %>%
+        summarize(total_all = n()) %>%
+        ungroup()
+    ) %>%
+    mutate(prop = total_nom/total_all) %>%
+    reorder_levels(type, order = c("win","lose")) %>%
+    ggplot(aes(x = content_rating_new, y = total_nom, fill = type)) +
+    geom_bar(stat = "identity", position = position_stack()) +
+    geom_text(aes(label = scales::percent(round(prop, digits = 3))),size = 3, position = position_stack(vjust = 0.5))+
+    scale_fill_manual("legend", values = c("win" = "#dfca4e", "lose" = "#858585")) +
+    labs(title = "Number of Oscar Nominations by MPAA Rating", 
+         subtitle ="There's not much difference of proportion of winning Oscar for all MPAA ratings",
+         caption = " source : https://www.kaggle.com/unanimad/the-oscar-award and IMDB \nMovie released between 1990 - 2015",
+         y = "no of nominations") +
+    scale_y_log10(labels = label_comma()) +
+    theme_minimal() +
+    theme(
+      axis.title = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.text.y = element_blank(),
+      legend.position = "bottom",
+      legend.title = element_blank()
+    ) +
+    geom_text(aes(content_rating_new, total_all+`...3`, label = scales::comma(total_all), fill = NULL), data = oscar_all, size = 4, vjust=-0.25)
+
+
+```
+
+
+
+One of the parameters for artistic achievement in the movie industry is the award. The Academy Awards, also known as Oscars, is the most prestigious one. There's this common belief that R-rated movies are more likely to win the Oscar. However, when we look closely at the chart above, the compositon shows that R wins just about the same amount as the other ratings. R's higher number of nomination is related to the number of movie released. Since there are more R-rated movies out there, they get more nominations. 
+
+
+
+```{r metacritic_chart}
+
+#metacritic chart
+movietestmain %>%
+  filter(content_rating_new %in% c("G","PG","PG-13","R","NC-17"), title_year >= 1990 & title_year <= 2015, Metascore != "N/A") %>%
+  mutate(Metascore = as.numeric(Metascore)) %>%
+  ggplot(aes(x = content_rating_new, y = Metascore)) +
+  geom_boxplot(width = 0.6, aes(fill = content_rating_new),color = "black") +
+  geom_hline(aes(yintercept=57),color = "red",linetype="dashed") +
+  coord_flip() +
+  scale_x_discrete(limits = rev(levels(movietestmain$content_rating_new))) +
+  scale_fill_viridis(discrete = TRUE) +
+  labs(title = "Metascore by MPAA Rating", 
+       subtitle ="R-rated movies earn higher Metascore than PG and PG-13",
+       caption = "source : IMDB\nMovie produced between 1990-2015") +
+  theme_minimal() +
+  theme(
+    axis.title.y = element_blank(),
+    legend.position = "none"
+  )
+
+```
+
+
+Another parameter for achievement is the critics praise. [Metascore](https://www.metacritic.com/about-metascores) is the average score of aggregated reviews given by the leading critics. Movies that get positive reviews get higher Metascore and vice versa. The chart above shows R-rated movies get significantly higher Metascore compared to PG-13 and PG, the two most produced movies after R.
+
+
+G is another MPAA rating that has significantly higher Metascore than PG and PG-13. The majority of G movies is animated. Box office-wise, they are successful because of the ability to reach wide range of audience(refer to the financial chart). The animation studios sure know how to create compelling stories with low intensity of violence, sex, or profanity but still charm the critics and attract many people. Nowdays, we barely see any G rated movies. Some people argue that G-rated decline is due to stricter MPAA regulation. Let's take Lion King for example. The original 1994 movie was rated [G](https://www.imdb.com/title/tt0110357/?ref_=nv_sr_srsg_0). However, the almost shot-for-shot remake in 2019 got [PG](https://www.imdb.com/title/tt6105098/?ref_=nv_sr_srsg_3). Others argue that [G-rated are considered kids movie and the producers think they don't attract as many audience as they used to](https://www.bostonglobe.com/arts/2013/07/15/rated-movies-fade-black-hollywood-makes-kids-films-more-adult-friendly/oLu8BmdMrC0yEqO4km1dJP/story.html). So they add more mature elements and the movies earn PG rating. 
+
+(add paragraph about the rise of PG-13 rating)
+
+As for NC-17, although only a few, they get mostly favorable score from critics. This, once again, proves that the mature contents are more likely to get favorable reviews. However, they're harder to promote and generate small financial return. [Some theater chains refuse to screen them, some media outlets refuse to carry their ads, and some retailers refuse to sell them](https://www.npr.org/2012/08/21/159586654/nc-17-rating-can-be-a-death-sentence-for-movies). That's why many movie creators avoid getting NC-17 from MPAA and aim for R instead. They want to create movies with mature themes, get the praise from peers and critics, but still can reach a fair amount of audience and generate income.
