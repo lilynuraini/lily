@@ -88,6 +88,7 @@ G is another MPAA rating that has significantly higher Metascore than PG and PG-
 
 As for NC-17, although only a few, they get mostly good score from critics. This, once again, proves that the mature contents are more likely to get favorable reviews. However, they're harder to promote and generate small financial return. [Some theater chains refuse to screen them, some media outlets refuse to carry their ads, and some retailers refuse to sell them](https://www.npr.org/2012/08/21/159586654/nc-17-rating-can-be-a-death-sentence-for-movies). That's why many movie creators avoid getting NC-17 from MPAA and aim for R instead. They want to create movies with mature themes, get the praise from peers and critics, but still can reach a fair amount of audience.
 
+<img src="{{< blogdown/postref >}}index_files/figure-html/topblockbuster_chart-1.png" width="672" />
 
 Although the data shows us that Hollywood values acknowledgement more than money, doesn't mean it's not important. Best-selling literature adaptation, sequels, and franchises are strategies for cash grab. Nowadays, these strategies aim for PG-13 rating, the second most produced movie rating, since it's considered still safe for kids, teenagers don't think it's too childish, their adult guardian also can enjoy.
 
@@ -104,3 +105,6 @@ Oscar data
 
 Movie financial data
 - [Opus Data](https://www.opusdata.com/)
+
+Top blockbuster data
+- [crowdflower](https://data.world/crowdflower/blockbuster-database)

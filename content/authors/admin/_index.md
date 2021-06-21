@@ -1,16 +1,7 @@
 ---
 bio: TBD.
-education:
-  courses:
-  - course: BSc in Information System
-    institution: Binus University
-    year: 2014
 email: "lily_nuraini@ymail.com"
 highlight_name: true
-interests:
-- TBD
-- TBD
-- TBD
 social:
 - icon: envelope
   icon_pack: fas
@@ -26,5 +17,8 @@ social:
 superuser: true
 title: Lily Nur Aini
 ---
+Still contemplating about what to put here. Here's loren ipsum to read for the time being.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
+*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel est augue. Phasellus lacinia mattis tortor at facilisis. Duis tincidunt elit quis fringilla vulputate. Aenean sed tincidunt ipsum. Etiam viverra magna ut volutpat sagittis. Etiam aliquet fermentum libero, eget vestibulum augue luctus ac. Nullam egestas pellentesque nisl sit amet placerat.*
+
+*Aenean velit neque, ornare sit amet nulla ac, tincidunt faucibus enim. Proin ante velit, lacinia eget hendrerit ac, condimentum sed urna. Maecenas nec lorem non nisi vulputate suscipit a sed mi. Etiam in posuere lectus, non maximus lorem. Nam malesuada, justo eu tincidunt tempus, nisl dolor accumsan mi, ut convallis sem risus ac mi.*
