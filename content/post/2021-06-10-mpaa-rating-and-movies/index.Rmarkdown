@@ -7,7 +7,7 @@ categories: [mpaa and movies]
 tags: [mpaa,movie,film,rating,audience]
 subtitle: ''
 summary: 'What the data tells you about MPAA and movie industry'
-authors: [admin]
+authors: []
 lastmod: '2021-06-10T13:43:12+07:00'
 profile : false
 featured: true
