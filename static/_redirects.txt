@@ -1,0 +1,2 @@
+https://lilywrites.netlify.com/*  https://lily.rbind.io/:splat  301!
+http://lilywrites.netlify.com/*   https://lily.rbind.io/:splat  301!
