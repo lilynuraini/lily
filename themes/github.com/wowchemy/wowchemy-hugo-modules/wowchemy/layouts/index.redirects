@@ -1,9 +1,13 @@
 # Netlify redirects
 # Automatically generated
 # Documentation: http://bit.ly/netlify-deployment
-{{- /* Note: code purposely un-indented to preserve required spacing in output. */ -}}
-{{- range $page := where site.AllPages ".Aliases" "!=" nil -}}
-{{- range $page.Aliases }}
-{{ .|relLangURL }} {{ $page.RelPermalink -}}
-{{- end }}
-{{- end -}}
+#{{- /* Note: code purposely un-indented to preserve required spacing in output. */ -}}
+#{{- range $page := where site.AllPages ".Aliases" "!=" nil -}}
+#{{- range $page.Aliases }}
+#{{ .|relLangURL }} {{ $page.RelPermalink -}}
+#{{- end }}
+#{{- end -}}
+
+https://lilywrites.netlify.app/*  https://lily.rbind.io/:splat  301!
+http://lilywrites.netlify.app/*   https://lily.rbind.io/:splat  301!
+http://lily.rbind.io/*   https://lily.rbind.io/:splat  301!
