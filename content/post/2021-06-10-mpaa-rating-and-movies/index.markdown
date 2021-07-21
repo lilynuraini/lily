@@ -29,7 +29,7 @@ projects: []
 
 <img src="Images/mpaa_bump_movie.jpg" width="75%" height="75%" style="display: block; margin: auto;" /><img src="Images/mpaa_bump_trailer.jpg" width="75%" height="75%" style="display: block; margin: auto;" />
 
-You may have seen the above warning cards somewhere for at least once, in movie trailers or before a movie starts. They come in different colors and warnings. This is how the rating association informs you about the content of a movie. The content rating criterias differ for each country but they have the same purpose, to rate the suitability of movies to the audience. Due to these differences and availability of data, the analysis will focus on MPAA content rating and the movies that it rates. MPAA's headquarter is located in the United States so the movies are mostly produced by the movie industry that is often called Hollywood.
+You may have seen the above warning cards somewhere for at least once, in movie trailers or before a movie starts. They have different colors and warnings. This is how the rating association informs you about the content of a movie. The content rating criterias differ for each country but they have the same purpose, to rate the suitability of movies to the audience. Due to these differences and availability of data, the analysis will focus on MPAA content rating and the movies that it rates. MPAA's headquarter is located in the United States so the movies are mostly produced by the movie industry that is often called Hollywood.
 
 
 
