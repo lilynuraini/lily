@@ -17,8 +17,10 @@ social:
 superuser: true
 title: Lily Nur Aini
 ---
-Still contemplating about what to put here. Here's loren ipsum to read for the time being.
+**I compose stories led by data and other resources.**
 
-*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel est augue. Phasellus lacinia mattis tortor at facilisis. Duis tincidunt elit quis fringilla vulputate. Aenean sed tincidunt ipsum. Etiam viverra magna ut volutpat sagittis. Etiam aliquet fermentum libero, eget vestibulum augue luctus ac. Nullam egestas pellentesque nisl sit amet placerat.*
+**[Had to put Lorem Ipsum to fill the space, keep scrolling!]**
 
-*Aenean velit neque, ornare sit amet nulla ac, tincidunt faucibus enim. Proin ante velit, lacinia eget hendrerit ac, condimentum sed urna. Maecenas nec lorem non nisi vulputate suscipit a sed mi. Etiam in posuere lectus, non maximus lorem. Nam malesuada, justo eu tincidunt tempus, nisl dolor accumsan mi, ut convallis sem risus ac mi.*
+*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam bibendum eros interdum auctor fermentum. Duis dapibus faucibus egestas. Vestibulum facilisis eros nec mi vulputate, sit amet maximus metus porta. Curabitur eget lectus tristique, bibendum lacus et, aliquam odio. Sed id justo vel erat bibendum aliquet. Sed augue ipsum, sagittis in sagittis sed, dignissim eu ipsum. Praesent ut eros blandit, rhoncus ante quis, convallis eros. Cras augue justo, imperdiet et justo eget, congue ornare justo.*
+
+*Morbi nec ante est. Maecenas augue metus, elementum ac dapibus sed, dapibus nec dui. Quisque vel egestas odio. Donec fringilla tellus diam, vel cursus nulla posuere nec. Duis porta ipsum scelerisque quam sollicitudin tempor. Suspendisse ac tortor accumsan, vehicula eros sit amet, tincidunt leo. Donec volutpat consectetur erat, quis maximus arcu eleifend at. Proin et felis id ante elementum bibendum. Duis vel dapibus tellus.*

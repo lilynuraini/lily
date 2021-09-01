@@ -54,7 +54,7 @@ Overall, the charts show us MPAA rating criteria has changed overtime. It goes t
 [One research](https://pediatrics.aappublications.org/content/134/5/877.long) suggests that parents may become desensitize towards sex and violence in movies. In this research, parents were shown several violent and sexual scenes from movies then decided the minimum age that are appropriate for viewing. The parents kept lowering their age standard and ended up being more relax towards sex and violence. Daniel Romer, one of the researchers, says [the increase in movie violence and concurrent desensitization may be working to fuel each other](https://www.reuters.com/article/us-movie-violence-kids-idUSKCN0I91WS20141020).
 
 
-Movies that are considered edgy or shocking years ago, earn lower MPAA rating nowadays for commercial reasons. Moreover, Hollywood keep producing an abundant amount of movies that are full of violent and explicit contents with an inevitable flop for artistic reasons. Sex, violence, and profanity are everywhere that we are accustom to it and we may not even realize there's an undeniable change until it shows on charts.
+Movies that are considered edgy or shocking years ago, earn lower MPAA rating nowadays for commercial reasons. Moreover, Hollywood keep producing an abundant amount of movies that are full of violent and explicit contents with an inevitable flop for artistic reasons. Sex, violence, and profanity are everywhere that we are accustom to them and we may not even realize there's an undeniable change until it shows on charts.
 
 ## Note
 
