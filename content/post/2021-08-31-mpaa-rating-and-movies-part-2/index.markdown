@@ -11,7 +11,7 @@ authors: []
 lastmod: '2021-08-31T21:18:55+07:00'
 profile : false
 featured: true
-draft: true
+draft: false
 image:
   caption: '[Image by Samuel Regan-Asante on Unsplash](https://unsplash.com/photos/wMkaMXTJjlQ)'
   focal_point: ''
@@ -22,7 +22,9 @@ projects: []
 
 
 
+**Read part I [here](/post/mpaa-rating-and-movies)**
 
+## MPAA Rating vs Movie's Actual Content
 
 How are MPAA ratings different from each other in terms of movie content and theme? Using the movie plot synopsis data, I generate noun keywords from each MPAA rating from top 50 highest earning movies.
 
@@ -32,6 +34,7 @@ G and PG have similar keywords that are family friendly. PG-13 is in the middle.
 
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/kids_in_mind_chart-1.png" width="672" />
+
 
 Kids-In-Mind is an independent organization with no affiliation with the movie industry that [provide parents and other adults with objective and complete information about a film’s content so that they can decide, based on their own value system, whether they should watch a movie with or without their kids, or at all](https://kids-in-mind.com/about.htm). According to the [website](https://kids-in-mind.com/about.htm), Kids-In-Mind assign each movie three category ratings: Sex and nudity, violence and gore, and language with the scale of zero to ten, depending on quantity and context.
 
@@ -52,3 +55,11 @@ Overall, the charts show us MPAA rating criteria has changed overtime. It goes t
 
 
 Movies that are considered edgy or shocking years ago, earn lower MPAA rating nowadays for commercial reasons. Moreover, Hollywood keep producing an abundant amount of movies that are full of violent and explicit contents with an inevitable flop for artistic reasons. Sex, violence, and profanity are everywhere that we are accustom to it and we may not even realize there's an undeniable change until it shows on charts.
+
+## Note
+
+kids-in-mind data
+- [kids-in-mind website](https://kids-in-mind.com/)
+
+MPST: A Corpus of Movie Plot Synpses with Tags
+- [MPST: A Corpus of Movie Plot Synpses with Tags by Sudipta Kar and Suraj Maharjan and A. Pastor López-Monroy and Thamar Solorio](https://ritual.uh.edu/mpst-2018/)

@@ -287,7 +287,7 @@ movietestmain %>%
   scale_fill_viridis(discrete = TRUE) +
   labs(title = "Metascore by MPAA Rating", 
        subtitle ="R-rated movies earn higher Metascore than PG and PG-13",
-       caption = "source : IMDB(see note for details)\nMovie produced between 1990-2015") +
+       caption = "source : IMDB(see note for details)\nMovie released between 1990-2015") +
   theme_minimal() +
   theme(
     plot.title = element_text(size = 18),
@@ -337,6 +337,8 @@ block_ori %>%
 ```
 
 Although the data shows us that Hollywood values acknowledgement more than money, doesn't mean it's not important. Best-selling literature adaptation, sequels, and franchises are strategies for cash grab. Nowadays, these strategies aim for PG-13 rating, the second most produced movie rating, since it's considered still safe for kids, teenagers don't think it's too childish, their adult guardian also can enjoy.
+
+**Continue reading in part II [here](/post/mpaa-rating-and-movies-part-2)**
 
 ## Note
 

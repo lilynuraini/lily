@@ -92,6 +92,8 @@ As for NC-17, although only a few, they get mostly good score from critics. This
 
 Although the data shows us that Hollywood values acknowledgement more than money, doesn't mean it's not important. Best-selling literature adaptation, sequels, and franchises are strategies for cash grab. Nowadays, these strategies aim for PG-13 rating, the second most produced movie rating, since it's considered still safe for kids, teenagers don't think it's too childish, their adult guardian also can enjoy.
 
+**Continue reading in part II [here](/post/mpaa-rating-and-movies-part-2)**
+
 ## Note
 
 Data source links
