@@ -4,7 +4,7 @@ author: Lily Nur Aini
 date: '2021-08-31'
 slug: mpaa-rating-and-movies-part-2
 categories: [mpaa and movies]
-tags: [mpaa,movie,film,rating,audience]
+tags: [mpaa,movie,film,rating,audience,parents,children,movie content,R,Rmarkdown,dplyr]
 subtitle: ''
 summary: 'MPAA, movie industry, and movie content'
 authors: []

@@ -13,7 +13,10 @@ header:
   image:
   caption:
 ---
+**I compose stories led by data and other resources.**
 
-**Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.**
+**[Had to put Lorem Ipsum to fill the space for now]**
 
-**Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?**
+*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam bibendum eros interdum auctor fermentum. Duis dapibus faucibus egestas. Vestibulum facilisis eros nec mi vulputate, sit amet maximus metus porta. Curabitur eget lectus tristique, bibendum lacus et, aliquam odio. Sed id justo vel erat bibendum aliquet. Sed augue ipsum, sagittis in sagittis sed, dignissim eu ipsum. Praesent ut eros blandit, rhoncus ante quis, convallis eros. Cras augue justo, imperdiet et justo eget, congue ornare justo.*
+
+*Morbi nec ante est. Maecenas augue metus, elementum ac dapibus sed, dapibus nec dui. Quisque vel egestas odio. Donec fringilla tellus diam, vel cursus nulla posuere nec. Duis porta ipsum scelerisque quam sollicitudin tempor. Suspendisse ac tortor accumsan, vehicula eros sit amet, tincidunt leo. Donec volutpat consectetur erat, quis maximus arcu eleifend at. Proin et felis id ante elementum bibendum. Duis vel dapibus tellus.*
