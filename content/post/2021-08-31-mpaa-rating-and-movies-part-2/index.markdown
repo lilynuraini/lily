@@ -36,7 +36,7 @@ G and PG have similar keywords that are family friendly. PG-13 is in the middle.
 <img src="{{< blogdown/postref >}}index_files/figure-html/kids_in_mind_chart-1.png" width="672" />
 
 
-Kids-In-Mind is an independent organization with no affiliation with the movie industry that [provide parents and other adults with objective and complete information about a film’s content so that they can decide, based on their own value system, whether they should watch a movie with or without their kids, or at all](https://kids-in-mind.com/about.htm). According to the [website](https://kids-in-mind.com/about.htm), Kids-In-Mind assign each movie three category ratings: Sex and nudity, violence and gore, and language with the scale of zero to ten, depending on quantity and context.
+Kids-In-Mind is an independent organization with no affiliation with the movie industry that [provide parents and other adults with objective and complete information about a film’s content so that they can decide, based on their own value system, whether they should watch a movie with or without their kids, or at all](https://kids-in-mind.com/about.htm). According to the [website](https://kids-in-mind.com/about.htm), Kids-In-Mind assigns each movie three category ratings: Sex and nudity, violence and gore, and language with the scale of zero to ten, depending on quantity and context.
 
 
 Using data from Kids-In-Mind, I compare their three category rating score against the MPAA rating. As expected, G and PG are always at the bottom but there are slight increases and G catches up with PG in all categories. G-rated movies nowadays could have the same intensity as PG.
