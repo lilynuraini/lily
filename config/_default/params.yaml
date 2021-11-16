@@ -37,7 +37,7 @@ twitter: ''
 #  - 'Monday 10:00 to 13:00'
 #  - 'Wednesday 09:00 to 10:00'
 #appointment_url: 'https://calendly.com'
-#contact_links:
+contact_links:
 #  - icon: twitter
 #    icon_pack: fab
 #    name: DM Me
@@ -109,6 +109,7 @@ copyright_license:
   notice: 'This work is licensed under {license}'
 abstract_length: 135
 plugins_js: []
+plugins_css: [custom]
 avatar:
   gravatar: false
   shape: circle

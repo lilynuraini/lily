@@ -14,6 +14,10 @@ social:
 - icon: linkedin
   icon_pack: fab
   link: https://www.linkedin.com/in/lilynuraini
+- icon: tableau
+  icon_pack: icon
+  link: https://public.tableau.com/app/profile/lily.nuraini
+
 superuser: true
 title: Lily Nur Aini
 ---
