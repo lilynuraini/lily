@@ -25,4 +25,4 @@ projects: []
 }
 </style>
 
-<center><iframe src="https://public.tableau.com/views/HowFarIndonesiaHaveReachedTheGoalOfRenewableEnergyConversion/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link&:showVizHome=no&:embed=true" width="1100px" height="2767px" frameborder="0"></iframe></center>
+<center><iframe src="https://public.tableau.com/views/HowFarIndonesiaHaveReachedTheGoalOfRenewableEnergyConversion_updated/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link&:showVizHome=no&:embed=true" width="1100px" height="3677px" frameborder="0"></iframe></center>
