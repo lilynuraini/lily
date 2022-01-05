@@ -11,15 +11,16 @@ authors: []
 lastmod: '2022-01-02T14:31:19+07:00'
 profile : false
 featured: true
-draft: true
+draft: false
 image:
   caption: ''
   focal_point: ''
   preview_only: no
 projects: []
 ---
+After looking at the visualization [here](/post/places-where-funerals-are-more-common-than-baby-showers), I believe the countries belong to certain categories but I didn't know how to define the profile of those categories. Still using the same data, I try clustering technique utilizing K-means algorithm.
 
-After looking at the visualization here, I believe the countries belong to certain categories but I didn't know how to define the profile of those categories. Still using the same data, I try clustering technique utilizing K-means algorithm.
+## Data Preparation
 
 
 ```python
@@ -27,7 +28,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-
 import pandas as pd
 from kneed import KneeLocator
 from sklearn.cluster import KMeans
@@ -40,79 +40,20 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder, MinMaxScaler
 ```python
 #import dataset
 df = pd.read_csv('data/Birthrate_Deathrate_fsi_pop_gdp.csv')
-```
-
-
-```python
 df_2019 = df[(df['Region'].notnull()) & (df['Year'] == 2019) & (df['IncomeGroup'].notnull()) & (df['BirthRate'].notnull()) & (df['DeathRate'].notnull()) 
              & (df['Total'].notnull())]
-
-df_2019.isnull().sum()
 ```
-
-
-
-
-    CountryName                         0
-    CountryCode                         0
-    Year                                0
-    BirthRate                           0
-    DeathRate                           0
-    CountryName_fsi                     0
-    CountryName_wb                      0
-    Region                              0
-    IncomeGroup                         0
-    Country                             0
-    Year_fsi                            0
-    Rank                                0
-    Total                               0
-    C1: Security Apparatus              0
-    C2: Factionalized Elites            0
-    C3: Group Grievance                 0
-    E1: Economy                         0
-    E2: Economic Inequality             0
-    E3: Human Flight and Brain Drain    0
-    P1: State Legitimacy                0
-    P2: Public Services                 0
-    P3: Human Rights                    0
-    S1: Demographic Pressures           0
-    S2: Refugees and IDPs               0
-    X1: External Intervention           0
-    Population                          1
-    GDP                                 4
-    dtype: int64
-
-
 
 
 ```python
 #change IncomeGroup to integer and store the encoded IncomeGroup to IncomeGroup_enc
-
 le = LabelEncoder()
-
 df_2019['IncomeGroup_enc'] = le.fit_transform(df_2019['IncomeGroup'])
-
-label_encoder = le.fit_transform(df_2019['IncomeGroup'])
 
 #adding derived feature
 df_2019['NC'] = df_2019['BirthRate']-df_2019['DeathRate']
 df_2019.head()
 ```
-
-    C:\Users\Lily\Anaconda3\lib\site-packages\ipykernel_launcher.py:5: SettingWithCopyWarning: 
-    A value is trying to be set on a copy of a slice from a DataFrame.
-    Try using .loc[row_indexer,col_indexer] = value instead
-    
-    See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
-      """
-    C:\Users\Lily\Anaconda3\lib\site-packages\ipykernel_launcher.py:10: SettingWithCopyWarning: 
-    A value is trying to be set on a copy of a slice from a DataFrame.
-    Try using .loc[row_indexer,col_indexer] = value instead
-    
-    See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
-      # Remove the CWD from sys.path while we load stuff.
-    
-
 
 
 
@@ -287,12 +228,12 @@ df_2019.head()
 
 
 ```python
-#select columns for the analysis
-df_2019_withname = df_2019[['CountryName','CountryCode','NC','IncomeGroup','IncomeGroup_enc','Total']]
-df_2019_1 = df_2019[['CountryCode','NC','IncomeGroup_enc','Total']]
-df_2019_nolabel = df_2019[['NC','IncomeGroup_enc','Total']]
+le.fit(df_2019['IncomeGroup'])
+le_name_mapping = pd.DataFrame(le.classes_, le.transform(le.classes_))
+le_name_mapping['Income Group'] = le_name_mapping.index
+le_name_mapping = le_name_mapping.rename(columns={le_name_mapping.columns[0]: "IncomeGroup" })
 
-df_2019_nolabel.head()
+le_name_mapping
 ```
 
 
@@ -316,41 +257,30 @@ df_2019_nolabel.head()
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>NC</th>
-      <th>IncomeGroup_enc</th>
-      <th>Total</th>
+      <th>IncomeGroup</th>
+      <th>Income Group</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>28</th>
-      <td>10.984</td>
-      <td>2</td>
-      <td>69.8</td>
-    </tr>
-    <tr>
-      <th>88</th>
-      <td>23.671</td>
-      <td>3</td>
-      <td>82.6</td>
-    </tr>
-    <tr>
-      <th>148</th>
-      <td>22.726</td>
-      <td>1</td>
-      <td>96.4</td>
-    </tr>
-    <tr>
-      <th>208</th>
-      <td>-1.000</td>
+      <th>0</th>
+      <td>High income</td>
       <td>0</td>
-      <td>40.8</td>
     </tr>
     <tr>
-      <th>268</th>
-      <td>25.478</td>
+      <th>1</th>
+      <td>Low income</td>
       <td>1</td>
-      <td>94.2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Lower middle income</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Upper middle income</td>
+      <td>3</td>
     </tr>
   </tbody>
 </table>
@@ -358,26 +288,17 @@ df_2019_nolabel.head()
 
 
 
+Since the analysis is the continuation of the following data storytelling, I want to be consistent with the story so only three measures are analyzed, Natural Change, Fragile State Index(FSI), and Income Group
+
 
 ```python
-df_2019_nolabel.isnull().sum()
+#select columns for the analysis
+df_2019_withname = df_2019[['CountryName','CountryCode','NC','IncomeGroup','IncomeGroup_enc','Total']]
+df_clust = df_2019[['NC','IncomeGroup_enc','Total']]
 ```
 
 
-
-
-    NC                 0
-    IncomeGroup_enc    0
-    Total              0
-    dtype: int64
-
-
-
-
 ```python
-# creating a copy to keep original df as is for later
-df_clust = df_2019_nolabel.copy()
-
 cols_scale = df_clust.columns
 df_clust.head()
 ```
@@ -445,18 +366,81 @@ df_clust.head()
 
 
 
+## Clustering Process
+
 
 ```python
 #Scaling
 scaler = MinMaxScaler().fit(df_clust[cols_scale])
 df_clust[cols_scale] = scaler.transform(df_clust[cols_scale]);
+df_clust.head()
 ```
 
-    C:\Users\Lily\Anaconda3\lib\site-packages\sklearn\preprocessing\data.py:334: DataConversionWarning: Data with input dtype int32, float64 were all converted to float64 by MinMaxScaler.
-      return self.partial_fit(X, y)
-    
 
-To determine the number of category, I use charts below and look for the knee with lowest inertia, then choose the one with the highest silhouette coefficients. The number of cluster chosen will be used in K-means algorithm.
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>NC</th>
+      <th>IncomeGroup_enc</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>28</th>
+      <td>0.399151</td>
+      <td>0.666667</td>
+      <td>0.547619</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>0.685514</td>
+      <td>1.000000</td>
+      <td>0.680124</td>
+    </tr>
+    <tr>
+      <th>148</th>
+      <td>0.664184</td>
+      <td>0.333333</td>
+      <td>0.822981</td>
+    </tr>
+    <tr>
+      <th>208</th>
+      <td>0.128657</td>
+      <td>0.000000</td>
+      <td>0.247412</td>
+    </tr>
+    <tr>
+      <th>268</th>
+      <td>0.726300</td>
+      <td>0.333333</td>
+      <td>0.800207</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+To determine the number of category, I use charts below and look for the elbow with lowest inertia, then choose the one with the highest silhouette coefficients. The number of cluster chosen will be used in K-means algorithm.
 
 
 ```python
@@ -467,9 +451,20 @@ kmeans = KMeans(
     max_iter=300,
     random_state=42
 )
-
 kmeans.fit(df_clust)
+```
 
+
+
+
+    KMeans(algorithm='auto', copy_x=True, init='random', max_iter=300,
+        n_clusters=6, n_init=10, n_jobs=None, precompute_distances='auto',
+        random_state=42, tol=0.0001, verbose=0)
+
+
+
+
+```python
 kmeans_kwargs = {"init": "k-means++",
                   "n_init": 10,
                   "max_iter": 300,
@@ -501,16 +496,16 @@ for k in range(2, 11):
 fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(15, 7))
 fig.tight_layout(pad=7)
 axes[0].plot(range(1, 11), sse)
-axes[0].set(title='Title', xlabel='Number of Clusters', 
+axes[0].set(title='Elbow Plot', xlabel='Number of Clusters', 
        ylabel='Inertia')
 axes[1].plot(range(2, 11), silhouette_coefficients)
-axes[1].set(title='Title 2', xlabel='Number of Clusters', 
+axes[1].set(title='Silhouette Coefficient', xlabel='Number of Clusters', 
        ylabel='Silhouette Coefficient')
 fig.tight_layout()
 ```
 
 
-![png](output_13_0.png)
+![png](output_16_0.png)
 
 
 
@@ -531,9 +526,10 @@ kmeans_1.fit(df_clust)
 
 ```python
 df_2019kmeans_result = df_2019_withname.copy()
-
 df_2019kmeans_result['cluster_ids'] = kmeans_1.labels_
 ```
+
+## Result
 
 
 ```python
@@ -543,14 +539,14 @@ ax = sns.boxplot(x="cluster_ids", y="Total", data=df_2019kmeans_result, color="l
 ax = sns.swarmplot(x="cluster_ids", y="Total", data=df_2019kmeans_result, hue="IncomeGroup",palette="Set2",size = 8)
 
 plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.2)
-plt.suptitle('test title', fontsize=20)
+plt.suptitle('Fragile State Index by Cluster', fontsize=20)
 plt.xlabel('Cluster', fontsize=18)
 plt.ylabel('Fragile State Index', fontsize=16)
 plt.show()
 ```
 
 
-![png](output_16_0.png)
+![png](output_20_0.png)
 
 
 
@@ -562,19 +558,41 @@ az = sns.boxplot(x="cluster_ids", y="NC", data=df_2019kmeans_result,color="light
 az = sns.swarmplot(x="cluster_ids", y="NC", data=df_2019kmeans_result, hue="IncomeGroup", palette="Set2",size = 8)
 
 plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.2)
+plt.suptitle('Natural Change by Cluster', fontsize=20)
+plt.xlabel('Cluster', fontsize=18)
+plt.ylabel('Natural Change', fontsize=16)
 plt.show()
 ```
 
 
-![png](output_17_0.png)
+![png](output_21_0.png)
 
 
-Income category provided by World Bank differentiate countries quite well. Using clusters created by K-means clustering method, the result isn't too far off from World Bank's. The countries stat in the same category except for Upper Middle Income. K-means separated Upper Middle Income into two clusters; one with low Natural Change and lower Fragile State Index and one with both higher Natural Change and Fragile State Index. Table below shows the profile of each cluster.
+Income category provided by World Bank differentiate countries quite well. Using clusters created by K-means clustering method, the result isn't too far off from World Bank's. The countries are in the same category except for Upper Middle Income. K-means separated Upper Middle Income into two clusters; one with low Natural Change and lower Fragile State Index and one with both higher Natural Change and Fragile State Index. Table below shows the profile of each cluster.
 
 
 ```python
-# Cluster ID level summary
-df_2019kmeans_result.groupby('cluster_ids').describe().T.reset_index()
+df_clust_Income = pd.DataFrame(df_2019kmeans_result.groupby('cluster_ids')['IncomeGroup_enc'].mean().round(0).astype(int))
+#print(df_clust_Income)
+#print(le_name_mapping)
+df_clust_mapping = pd.merge(df_clust_Income, le_name_mapping, how='left',left_on = 'IncomeGroup_enc',right_on = 'Income Group')
+#print(df_clust_mapping)
+df_clust_mapping = df_clust_mapping[['IncomeGroup','Income Group']]
+df_clust_mapping = df_clust_mapping.T.reset_index()
+df_clust_mapping = df_clust_mapping.rename(columns={'index':'Indicator'})
+new_col = ['mean', 'Income Group']
+df_clust_mapping.insert(loc=1, column='Metric', value=new_col)
+```
+
+
+```python
+df_clust_sum1 = df_2019kmeans_result.groupby('cluster_ids').describe().round(2).T.reset_index()
+df_clust_sum1 = df_clust_sum1.rename(columns={'level_0':'Indicator','level_1':'Metric'})
+df_clust_sum1.loc[df_clust_sum1['Indicator'] == 'NC', 'Indicator'] = 'Natural Change'
+df_clust_sum1.loc[df_clust_sum1['Indicator'] == 'Total', 'Indicator'] = 'Fragile State Index'
+df_clust_sum1.loc[df_clust_sum1['Indicator'] == 'IncomeGroup_enc', 'Indicator'] = 'Income Group'
+df_clust_sum1 = pd.concat([df_clust_sum1, df_clust_mapping], axis=0)
+df_clust_sum1
 ```
 
 
@@ -598,8 +616,8 @@ df_2019kmeans_result.groupby('cluster_ids').describe().T.reset_index()
   <thead>
     <tr style="text-align: right;">
       <th>cluster_ids</th>
-      <th>level_0</th>
-      <th>level_1</th>
+      <th>Indicator</th>
+      <th>Metric</th>
       <th>0</th>
       <th>1</th>
       <th>2</th>
@@ -610,243 +628,263 @@ df_2019kmeans_result.groupby('cluster_ids').describe().T.reset_index()
   <tbody>
     <tr>
       <th>0</th>
-      <td>NC</td>
+      <td>Natural Change</td>
       <td>count</td>
-      <td>53.000000</td>
-      <td>50.000000</td>
-      <td>20.000000</td>
-      <td>27.000000</td>
-      <td>28.000000</td>
+      <td>53</td>
+      <td>50</td>
+      <td>20</td>
+      <td>27</td>
+      <td>28</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>NC</td>
+      <td>Natural Change</td>
       <td>mean</td>
-      <td>18.665528</td>
-      <td>2.685760</td>
-      <td>0.373450</td>
-      <td>26.607111</td>
-      <td>14.126750</td>
+      <td>18.67</td>
+      <td>2.69</td>
+      <td>0.37</td>
+      <td>26.61</td>
+      <td>14.13</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>NC</td>
+      <td>Natural Change</td>
       <td>std</td>
-      <td>6.590237</td>
-      <td>4.859131</td>
-      <td>4.670429</td>
-      <td>4.606603</td>
-      <td>4.737747</td>
+      <td>6.59</td>
+      <td>4.86</td>
+      <td>4.67</td>
+      <td>4.61</td>
+      <td>4.74</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>NC</td>
+      <td>Natural Change</td>
       <td>min</td>
-      <td>4.643000</td>
-      <td>-4.700000</td>
-      <td>-6.700000</td>
-      <td>15.000000</td>
-      <td>7.172000</td>
+      <td>4.64</td>
+      <td>-4.7</td>
+      <td>-6.7</td>
+      <td>15</td>
+      <td>7.17</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>NC</td>
+      <td>Natural Change</td>
       <td>25%</td>
-      <td>13.485000</td>
-      <td>-0.825000</td>
-      <td>-3.500000</td>
-      <td>24.347000</td>
-      <td>10.881500</td>
+      <td>13.48</td>
+      <td>-0.83</td>
+      <td>-3.5</td>
+      <td>24.35</td>
+      <td>10.88</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>NC</td>
+      <td>Natural Change</td>
       <td>50%</td>
-      <td>17.026000</td>
-      <td>2.100000</td>
-      <td>0.665000</td>
-      <td>26.126000</td>
-      <td>12.962500</td>
+      <td>17.03</td>
+      <td>2.1</td>
+      <td>0.66</td>
+      <td>26.13</td>
+      <td>12.96</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>NC</td>
+      <td>Natural Change</td>
       <td>75%</td>
-      <td>25.262000</td>
-      <td>5.700000</td>
-      <td>3.434500</td>
-      <td>30.054500</td>
-      <td>16.416500</td>
+      <td>25.26</td>
+      <td>5.7</td>
+      <td>3.43</td>
+      <td>30.05</td>
+      <td>16.42</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>NC</td>
+      <td>Natural Change</td>
       <td>max</td>
-      <td>32.251000</td>
-      <td>16.091000</td>
-      <td>9.229000</td>
-      <td>37.604000</td>
-      <td>24.264000</td>
+      <td>32.25</td>
+      <td>16.09</td>
+      <td>9.23</td>
+      <td>37.6</td>
+      <td>24.26</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>IncomeGroup_enc</td>
+      <td>Income Group</td>
       <td>count</td>
-      <td>53.000000</td>
-      <td>50.000000</td>
-      <td>20.000000</td>
-      <td>27.000000</td>
-      <td>28.000000</td>
+      <td>53</td>
+      <td>50</td>
+      <td>20</td>
+      <td>27</td>
+      <td>28</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>IncomeGroup_enc</td>
+      <td>Income Group</td>
       <td>mean</td>
-      <td>1.981132</td>
-      <td>0.000000</td>
-      <td>2.950000</td>
-      <td>0.962963</td>
-      <td>3.000000</td>
+      <td>1.98</td>
+      <td>0</td>
+      <td>2.95</td>
+      <td>0.96</td>
+      <td>3</td>
     </tr>
     <tr>
       <th>10</th>
-      <td>IncomeGroup_enc</td>
+      <td>Income Group</td>
       <td>std</td>
-      <td>0.137361</td>
-      <td>0.000000</td>
-      <td>0.223607</td>
-      <td>0.192450</td>
-      <td>0.000000</td>
+      <td>0.14</td>
+      <td>0</td>
+      <td>0.22</td>
+      <td>0.19</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>11</th>
-      <td>IncomeGroup_enc</td>
+      <td>Income Group</td>
       <td>min</td>
-      <td>1.000000</td>
-      <td>0.000000</td>
-      <td>2.000000</td>
-      <td>0.000000</td>
-      <td>3.000000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
     </tr>
     <tr>
       <th>12</th>
-      <td>IncomeGroup_enc</td>
+      <td>Income Group</td>
       <td>25%</td>
-      <td>2.000000</td>
-      <td>0.000000</td>
-      <td>3.000000</td>
-      <td>1.000000</td>
-      <td>3.000000</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
     </tr>
     <tr>
       <th>13</th>
-      <td>IncomeGroup_enc</td>
+      <td>Income Group</td>
       <td>50%</td>
-      <td>2.000000</td>
-      <td>0.000000</td>
-      <td>3.000000</td>
-      <td>1.000000</td>
-      <td>3.000000</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
     </tr>
     <tr>
       <th>14</th>
-      <td>IncomeGroup_enc</td>
+      <td>Income Group</td>
       <td>75%</td>
-      <td>2.000000</td>
-      <td>0.000000</td>
-      <td>3.000000</td>
-      <td>1.000000</td>
-      <td>3.000000</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
     </tr>
     <tr>
       <th>15</th>
-      <td>IncomeGroup_enc</td>
+      <td>Income Group</td>
       <td>max</td>
-      <td>2.000000</td>
-      <td>0.000000</td>
-      <td>3.000000</td>
-      <td>1.000000</td>
-      <td>3.000000</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
     </tr>
     <tr>
       <th>16</th>
-      <td>Total</td>
+      <td>Fragile State Index</td>
       <td>count</td>
-      <td>53.000000</td>
-      <td>50.000000</td>
-      <td>20.000000</td>
-      <td>27.000000</td>
-      <td>28.000000</td>
+      <td>53</td>
+      <td>50</td>
+      <td>20</td>
+      <td>27</td>
+      <td>28</td>
     </tr>
     <tr>
       <th>17</th>
-      <td>Total</td>
+      <td>Fragile State Index</td>
       <td>mean</td>
-      <td>80.490566</td>
-      <td>37.148000</td>
-      <td>61.285000</td>
-      <td>96.625926</td>
-      <td>71.439286</td>
+      <td>80.49</td>
+      <td>37.15</td>
+      <td>61.28</td>
+      <td>96.63</td>
+      <td>71.44</td>
     </tr>
     <tr>
       <th>18</th>
-      <td>Total</td>
+      <td>Fragile State Index</td>
       <td>std</td>
-      <td>10.245360</td>
-      <td>13.810470</td>
-      <td>11.122252</td>
-      <td>11.122278</td>
-      <td>10.498866</td>
+      <td>10.25</td>
+      <td>13.81</td>
+      <td>11.12</td>
+      <td>11.12</td>
+      <td>10.5</td>
     </tr>
     <tr>
       <th>19</th>
-      <td>Total</td>
+      <td>Fragile State Index</td>
       <td>min</td>
-      <td>54.100000</td>
-      <td>16.900000</td>
-      <td>38.900000</td>
-      <td>76.500000</td>
-      <td>47.000000</td>
+      <td>54.1</td>
+      <td>16.9</td>
+      <td>38.9</td>
+      <td>76.5</td>
+      <td>47</td>
     </tr>
     <tr>
       <th>20</th>
-      <td>Total</td>
+      <td>Fragile State Index</td>
       <td>25%</td>
-      <td>73.000000</td>
-      <td>24.850000</td>
-      <td>54.125000</td>
-      <td>87.450000</td>
-      <td>66.350000</td>
+      <td>73</td>
+      <td>24.85</td>
+      <td>54.12</td>
+      <td>87.45</td>
+      <td>66.35</td>
     </tr>
     <tr>
       <th>21</th>
-      <td>Total</td>
+      <td>Fragile State Index</td>
       <td>50%</td>
-      <td>80.100000</td>
-      <td>37.800000</td>
-      <td>65.650000</td>
-      <td>95.500000</td>
-      <td>70.800000</td>
+      <td>80.1</td>
+      <td>37.8</td>
+      <td>65.65</td>
+      <td>95.5</td>
+      <td>70.8</td>
     </tr>
     <tr>
       <th>22</th>
-      <td>Total</td>
+      <td>Fragile State Index</td>
       <td>75%</td>
-      <td>87.700000</td>
-      <td>47.875000</td>
-      <td>71.025000</td>
-      <td>108.250000</td>
-      <td>75.750000</td>
+      <td>87.7</td>
+      <td>47.88</td>
+      <td>71.03</td>
+      <td>108.25</td>
+      <td>75.75</td>
     </tr>
     <tr>
       <th>23</th>
-      <td>Total</td>
+      <td>Fragile State Index</td>
       <td>max</td>
-      <td>99.500000</td>
-      <td>70.400000</td>
-      <td>74.700000</td>
-      <td>113.500000</td>
-      <td>99.100000</td>
+      <td>99.5</td>
+      <td>70.4</td>
+      <td>74.7</td>
+      <td>113.5</td>
+      <td>99.1</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>IncomeGroup</td>
+      <td>mean</td>
+      <td>Lower middle income</td>
+      <td>High income</td>
+      <td>Upper middle income</td>
+      <td>Low income</td>
+      <td>Upper middle income</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Income Group</td>
+      <td>Income Group</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
     </tr>
   </tbody>
 </table>
