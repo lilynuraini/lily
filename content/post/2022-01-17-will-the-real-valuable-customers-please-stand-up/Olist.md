@@ -1,25 +1,3 @@
----
-title: Will The Real Valuable Customers Please Stand Up? [Python]
-author: Lily Nur Aini
-date: '2022-01-17'
-slug: will-the-real-valuable-customers-please-stand-up
-categories: [Olist Case]
-tags: [customer, CLV, buy till you die, BG, NBD, Gamma gamma, RFM, kmeans, clustering, Python]
-subtitle: ''
-summary: 'It is nearly impossible to find them just by asking the title question, we are going to use data analysis to do that.'
-authors: []
-lastmod: '2022-01-17T18:55:52+07:00'
-profile : false
-featured: true
-draft: false
-image:
-  caption: '[Image by Hannes Edinger on Pixabay](https://pixabay.com/photos/online-shopping-clothing-mobile-2900303/)'
-  focal_point: ''
-  preview_only: no
-projects: []
----
-
-
 ```python
 import numpy as np
 import pandas as pd
@@ -877,7 +855,7 @@ df_rft.head()
 
 
 
-According to the chart, first-time customers and customers who are most frequent with high recency are likely to be alive.
+According to the chart, first-time customers and customers who are most frequent with high recency are likely to be alive
 
 
 ```python
@@ -1937,7 +1915,7 @@ axes[2,1].set(title='Alive(Not Churned) Probability', xlabel='Cluster Id', ylabe
 
 
 K-Means Clustering assigns customers into three clusters/groups, here's their profile:
-- Cluster 0, fresh and fierce: relatively new customers(approx. 1 year) and recently buy something from Olist, but they are willing to spend more than the other groups
+- Cluster 0, fresh and fierce: relatively new customers(approx. 1 year) and recently buy something from Olist, but they are willing to spend more than the other groups.
 - Cluster 1, old but gold: the oldest yet the most alive group that haven't bought anything for roughly a year, although, expect one or two purchases with high value from them over the next two or three months
 - Cluster 2, the middle child: the second oldest and the least in all aspects but they make more than one purchase in a relatively short period of time. BG/NBD sees a potential in this group, maybe all they need is a little push
 
@@ -1971,7 +1949,7 @@ fig.tight_layout();
 ![png](output_68_0.png)
 
 
-Next, the top 10 items they spend their money on.
+Next, the top 10 items they spend their money on
 
 
 ```python
