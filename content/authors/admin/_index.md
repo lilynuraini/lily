@@ -21,4 +21,4 @@ social:
 superuser: true
 title: Lily Nur Aini
 ---
-After watching tutorial videos and reading tips and how-to articles, I need to practice the things I've learned and this is the space for that. Mainly using R to analyze and write stories but may expand to other tools or programming languages.
+This is the place where I write what I learn. Come look around, you may find something interesing.
