@@ -21,4 +21,4 @@ social:
 superuser: true
 title: Lily Nur Aini
 ---
-This is the place where I write what I learn. Come look around, you may find something interesing.
+This is the place where I write what I learn. Come look around, you may find something interesting.
