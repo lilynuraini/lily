@@ -149,7 +149,8 @@ map:
   zoom: 15
 marketing:
   # Google Analytics 4
-  google_analytics: 'G-FDERKGCJ00'
+  googleAnalyticsID: 'G-FDERKGCJ00'
+  google_analytics: ''
   google_tag_manager: ''
   google_site_verification: ''
   baidu_site_verification: ''
