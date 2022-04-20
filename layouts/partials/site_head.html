@@ -1,7 +1,7 @@
 <head>
   
-  
-  {{ if site.Params.marketing.GoogleAnalyticsID }}
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  {{ if and (hugo.IsProduction) (site.Params.marketing.GoogleAnalyticsID) }}
   {{ partial "analytics-gtag.html" . }}
   {{ end }}
 
