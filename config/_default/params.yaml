@@ -149,7 +149,7 @@ map:
   zoom: 15
 marketing:
   # Google Analytics 4
-  google_analytics: 'G-DD6W6K4XD2'
+  google_analytics: 'UA-226141406-1'
   google_tag_manager: ''
   google_site_verification: ''
   baidu_site_verification: ''
